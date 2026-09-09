@@ -1,25 +1,29 @@
-# Physics OS — v0.2
+# Physics OS — v0.3
 
 Eigenständige, lokal-first Studien-App für Physik. **`uni-hypernotes` wird nicht verwendet oder verändert.**
 
-## Bereits enthalten
+## Was v0.3 bereits kann
 
-- Dashboard
-- Drag & Drop für PDF, CSV/TSV, TXT/Markdown und Bilder
-- lokale Dateibibliothek in IndexedDB
-- automatische Grobklassifikation nach Vorlesung, Übung, Praktikum, Goodnotes und Daten
-- Formelbibliothek
-- CSV/TSV-Auswertung mit Mittelwert, Stichproben-Standardabweichung, linearer Regression und R²
-- Lernkarten + Goodnotes-CSV-Export
+- Dashboard mit nächstem Fokus, Concept Radar, Focus-Streak und täglichen Mini-Missionen
+- Studienbereich mit Modulen, Aufgaben, Prioritäten, Fälligkeiten und Fortschritt
+- Smart Import per Drag & Drop für PDF, CSV/TSV, TXT/Markdown und Bilder
+- lokale Textanalyse für analysierbare Dateien: Physik-Themen, Zahlen, mögliche Gleichungen und Vorschau
+- großer Formel-Explorer mit Variablen, Einheiten, Umstellungen und Verknüpfungen zum Trainer/Playground
+- Physics Problem Trainer mit Kinematik, Newton, Energie und Elektrizität sowie gestuften Hinweisen
+- Messdaten-Lab mit Mittelwert, Stichproben-Standardabweichung, linearer Regression, Parameterunsicherheiten und Plot
+- Gaußscher Unsicherheits-Rechner für Produkte/Potenzen
+- Physics Playground mit interaktivem schiefem Wurf und Schwarzkörperstrahlung
+- Lernkarten mit Goodnotes-CSV-Export und einfachem Spaced-Repetition-System
 - AES-256-GCM verschlüsseltes Vault-Backup
-- **neue Sync-Schicht:** Geräte-ID, zufällige Sync-ID, Push/Pull, Auto-Sync und clientseitige Verschlüsselung
+- Sync-Schicht mit Geräte-ID, Sync-ID, Push/Pull, Auto-Sync und clientseitiger Verschlüsselung
 - PWA-/Offline-Grundlage
+- Command Palette über `Ctrl/Cmd + K`
 
 ## Datenschutz / Sync-Architektur
 
-Der App-Code darf öffentlich auf GitHub liegen. Persönliche Dateien und Lerninhalte werden **nicht** ins Repository geschrieben.
+Der App-Code liegt öffentlich auf GitHub. Persönliche Dateien, Aufgaben, Lernkarten und Messwerte werden **nicht** ins Repository geschrieben.
 
-Für den Geräte-Sync wird der komplette Snapshot bereits im Browser mit dem Vault-Code verschlüsselt. Der Sync-Server sieht nur Ciphertext. `cloudflare-worker.js` enthält einen kleinen Server für Cloudflare Workers + R2. Ohne konfigurierten Sync-Endpunkt arbeitet Physics OS weiterhin vollständig lokal.
+Für den Geräte-Sync wird der komplette Snapshot bereits im Browser mit dem Vault-Code verschlüsselt. Der Sync-Server erhält nur Ciphertext. `cloudflare-worker.js` enthält einen kleinen Server für Cloudflare Workers + R2. Ohne konfigurierten Sync-Endpunkt arbeitet Physics OS vollständig lokal.
 
 ### Cloudflare-Sync einrichten
 
@@ -28,30 +32,19 @@ Für den Geräte-Sync wird der komplette Snapshot bereits im Browser mit dem Vau
 3. Einen Worker mit `cloudflare-worker.js` deployen.
 4. Den R2-Bucket im Worker als `PHYSICS_OS_BUCKET` binden.
 5. Die Worker-URL in Physics OS unter **Sync → Sync-Endpunkt** eintragen.
-6. Eine Sync-ID erzeugen und zusammen mit demselben Vault-Code auf den weiteren Geräten eintragen.
+6. Eine Sync-ID erzeugen und zusammen mit demselben Vault-Code auf weiteren Geräten eintragen.
 
 `wrangler.toml.example` zeigt die passende Bindung für Wrangler.
 
 ## Goodnotes
 
-Goodnotes bleibt der Schreibplatz. Exportierte PDFs können in Physics OS importiert werden. Lernkarten können als CSV für Goodnotes exportiert werden.
+Goodnotes bleibt der Schreibplatz. Exportierte PDFs können in Physics OS importiert werden. Lernkarten lassen sich als CSV wieder für Goodnotes exportieren.
 
-## Lokal öffnen
+## Nächste Ausbaustufen
 
-`index.html` sollte nicht per `file://` geöffnet werden, weil Browser JavaScript-Module dort häufig blockieren. Nutze GitHub Pages oder lokal einen kleinen Webserver, z. B.:
-
-```bash
-python3 -m http.server 8080
-```
-
-und öffne danach `http://localhost:8080`.
-
-## Nächste sinnvolle Ausbaustufen
-
-- PDF-Texterkennung und automatische Themen/Formel-Erkennung
-- Formeln aus Skripten in persönliche Bibliothek übernehmen
-- Fehlerfortpflanzung und wissenschaftliche Plots
-- Physics Problem Trainer
-- Spaced Repetition
-- Knowledge Graph
-- Astrophysik-Simulationen
+- Text-Layer/PDF-Analyse für Skripte und Goodnotes-Exporte
+- persönliche Formeln direkt aus importierten Dokumenten übernehmen
+- Knowledge Graph mit Beziehungen zwischen Begriffen statt nur Concept Radar
+- mehr Aufgabentypen und symbolische Zwischenschritte
+- nichtlineare Fits, Fehlerbalken und Export fertiger Praktikumsabbildungen
+- weitere Simulationen: Orbit, Doppler/Rotverschiebung, Exoplanetentransit und Relativität
