@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#090d17" />
-  <meta name="description" content="Lokales Physik- und Studiencockpit" />
+  <meta name="description" content="Physics OS – dein lokales Physik- und Studiencockpit" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="styles.css" />
   <title>Physics OS</title>
@@ -12,108 +12,302 @@
 <body>
 <div class="app-shell">
   <aside class="sidebar">
-    <div class="brand"><div class="brand-mark">φ</div><div><b>Physics OS</b><small>study cockpit</small></div></div>
+    <div class="brand">
+      <div class="brand-mark">φ</div>
+      <div><b>Physics OS</b><small>science cockpit</small></div>
+    </div>
     <nav id="nav">
-      <button data-tab="home" class="active">⌂ <span>Dashboard</span></button>
-      <button data-tab="files">▤ <span>Dateien</span></button>
-      <button data-tab="formulas">φ <span>Formeln</span></button>
-      <button data-tab="lab">⌁ <span>Labor</span></button>
-      <button data-tab="cards">◇ <span>Lernkarten</span></button>
-      <button data-tab="sync">↻ <span>Sync</span></button>
-      <button data-tab="vault">▣ <span>Vault</span></button>
+      <button data-tab="home" class="active"><span class="nav-icon">⌂</span><span>Dashboard</span></button>
+      <button data-tab="study"><span class="nav-icon">▦</span><span>Studium</span></button>
+      <button data-tab="files"><span class="nav-icon">▤</span><span>Dateien</span></button>
+      <button data-tab="formulas"><span class="nav-icon">φ</span><span>Formeln</span></button>
+      <button data-tab="trainer"><span class="nav-icon">∴</span><span>Trainer</span></button>
+      <button data-tab="lab"><span class="nav-icon">⌁</span><span>Labor</span></button>
+      <button data-tab="sim"><span class="nav-icon">◎</span><span>Simulationen</span></button>
+      <button data-tab="cards"><span class="nav-icon">◇</span><span>Lernkarten</span></button>
+      <button data-tab="sync"><span class="nav-icon">↻</span><span>Sync</span></button>
+      <button data-tab="vault"><span class="nav-icon">▣</span><span>Vault</span></button>
     </nav>
-    <div class="sidebar-note">Lokal-first · Goodnotes-freundlich</div>
+    <div class="sidebar-footer">
+      <div class="version-dot"></div>
+      <span>Physics OS 0.3 · lokal-first</span>
+    </div>
   </aside>
+
   <main class="main">
-    <header class="topbar"><div><span class="eyebrow">PHYSICS OS</span><h1 id="pageTitle">Dashboard</h1></div><span id="syncPill" class="privacy-pill">✓ lokal-first</span></header>
+    <header class="topbar">
+      <div>
+        <span class="eyebrow">PHYSICS OS</span>
+        <h1 id="pageTitle">Dashboard</h1>
+      </div>
+      <div class="top-actions">
+        <button id="commandButton" class="ghost-pill" title="Schnellnavigation">⌘ K</button>
+        <span id="syncPill" class="privacy-pill">✓ lokal-first</span>
+      </div>
+    </header>
+
     <div id="notice" class="notice hidden"></div>
 
     <section id="tab-home" class="tab active stack">
       <article class="hero panel">
-        <div><span class="eyebrow">DEIN STUDIUM, EINE OBERFLÄCHE</span><h2>Physik verstehen. Daten auswerten. Goodnotes sinnvoll ergänzen.</h2><p>Zieh Skripte, Goodnotes-PDFs, Übungsblätter oder Messdaten hinein. Physics OS ordnet sie vor, speichert sie lokal und macht aus Messdaten direkt eine kleine Auswertung.</p></div>
-        <div class="orbit"><div class="sun">φ</div><i class="planet p1"></i><i class="planet p2"></i></div>
+        <div class="hero-copy">
+          <span class="eyebrow">DEIN STUDIUM, EINE OBERFLÄCHE</span>
+          <h2>Verstehen statt verwalten.</h2>
+          <p>Physics OS verbindet Aufgaben, Formeln, Messdaten, Lernkarten, Simulationen und deine Goodnotes-Exporte zu einem persönlichen Physik-Cockpit.</p>
+          <div class="hero-actions">
+            <button class="primary" data-go="trainer">Aufgabe lösen</button>
+            <button class="secondary" data-go="files">Datei analysieren</button>
+          </div>
+        </div>
+        <div class="orbit" aria-hidden="true">
+          <div class="orbit-ring ring-1"></div><div class="orbit-ring ring-2"></div><div class="orbit-ring ring-3"></div>
+          <div class="sun">φ</div><i class="planet p1"></i><i class="planet p2"></i><i class="planet p3"></i>
+        </div>
       </article>
-      <div class="stats-grid">
+
+      <div class="stats-grid six">
         <article class="panel stat"><span>▤</span><div><strong id="statFiles">0</strong><small>Dateien</small></div></article>
-        <article class="panel stat"><span>◫</span><div><strong id="statGoodnotes">0</strong><small>Goodnotes-Importe</small></div></article>
-        <article class="panel stat"><span>⌁</span><div><strong id="statLab">0</strong><small>Datensätze / Praktika</small></div></article>
+        <article class="panel stat"><span>◫</span><div><strong id="statGoodnotes">0</strong><small>Goodnotes</small></div></article>
+        <article class="panel stat"><span>⌁</span><div><strong id="statLab">0</strong><small>Datensätze</small></div></article>
         <article class="panel stat"><span>◇</span><div><strong id="statCards">0</strong><small>Lernkarten</small></div></article>
+        <article class="panel stat"><span>✓</span><div><strong id="statTasks">0</strong><small>offene Tasks</small></div></article>
+        <article class="panel stat"><span>⚡</span><div><strong id="statStreak">0</strong><small>Focus-Streak</small></div></article>
+      </div>
+
+      <div class="grid-3 dashboard-grid">
+        <article class="panel padded focus-card">
+          <div class="section-title"><div><span class="eyebrow">HEUTE</span><h3>Nächster Fokus</h3></div><span id="todayDate" class="tag"></span></div>
+          <div id="nextFocus" class="focus-box"></div>
+          <button class="secondary full" data-go="study">Studium öffnen</button>
+        </article>
+
+        <article class="panel padded concept-card">
+          <div class="section-title"><div><span class="eyebrow">DEIN WISSEN</span><h3>Concept Radar</h3></div><span id="conceptCount" class="tag">0 Themen</span></div>
+          <div id="conceptRadar" class="concept-radar"></div>
+          <p class="muted compact">Entsteht lokal aus Dateinamen und analysierbarem Text deiner Importe.</p>
+        </article>
+
+        <article class="panel padded mission-card">
+          <div class="section-title"><div><span class="eyebrow">QUICK MISSION</span><h3>5-Minuten-Physik</h3></div><span class="tag accent">+1 Fokus</span></div>
+          <div id="dailyMission" class="mission-content"></div>
+          <button id="missionDone" class="primary full">Mission erledigt</button>
+        </article>
+      </div>
+
+      <div class="grid-2">
+        <article class="panel padded">
+          <div class="section-title"><h3>Schnellstart</h3><span class="muted">deine Werkzeuge</span></div>
+          <div class="action-grid">
+            <button class="action" data-go="files"><b>Smart Import</b><span>Dateien reinziehen & vorsortieren</span></button>
+            <button class="action" data-go="formulas"><b>Formel-Explorer</b><span>Variablen, Einheiten, Umstellungen</span></button>
+            <button class="action" data-go="lab"><b>Messdaten-Lab</b><span>Statistik, Fit & Plot</span></button>
+            <button class="action" data-go="sim"><b>Simulationen</b><span>Mechanik & Astrophysik live</span></button>
+          </div>
+        </article>
+        <article class="panel padded">
+          <div class="section-title"><h3>Zuletzt importiert</h3><button class="text-btn" data-go="files">alle</button></div>
+          <div id="recentList" class="recent-list"><div class="empty">Noch keine Dateien.</div></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="tab-study" class="tab stack">
+      <div class="study-header panel padded">
+        <div>
+          <span class="eyebrow">STUDY CONTROL</span>
+          <h2>Dein Semester auf einen Blick.</h2>
+          <p class="muted">Plane Aufgaben und behalte im Blick, woran du tatsächlich arbeiten willst – ohne Goodnotes als Schreibplatz zu ersetzen.</p>
+        </div>
+        <button id="addTaskQuick" class="primary">+ Aufgabe</button>
       </div>
       <div class="grid-2">
-        <article class="panel padded"><div class="section-title"><h3>Schnellstart</h3></div><div class="action-grid">
-          <button class="action" data-go="files"><b>Dateien reinziehen</b><span>PDF, CSV, TXT, Bilder</span></button>
-          <button class="action" data-go="formulas"><b>Formelbibliothek</b><span>Mechanik bis Astrophysik</span></button>
-          <button class="action" data-go="lab"><b>Messdaten</b><span>Mittelwert, σ, Fit, R²</span></button>
-          <button class="action" data-go="cards"><b>Goodnotes-Karten</b><span>CSV exportieren</span></button>
-        </div></article>
-        <article class="panel padded"><div class="section-title"><h3>Zuletzt importiert</h3></div><div id="recentList" class="recent-list"><div class="empty">Noch keine Dateien.</div></div></article>
+        <article class="panel padded">
+          <div class="section-title"><h3>Neue Aufgabe</h3><span class="tag">lokal gespeichert</span></div>
+          <div class="form-stack">
+            <label>Titel<input id="taskTitle" placeholder="z. B. Übungsblatt 1 – Aufgaben 1–4" /></label>
+            <div class="form-row">
+              <label>Modul<select id="taskModule"></select></label>
+              <label>Fällig am<input id="taskDue" type="date" /></label>
+            </div>
+            <div class="form-row">
+              <label>Priorität<select id="taskPriority"><option value="hoch">hoch</option><option value="mittel" selected>mittel</option><option value="niedrig">niedrig</option></select></label>
+              <label>Aufwand<select id="taskEffort"><option>15 min</option><option selected>30 min</option><option>60 min</option><option>90+ min</option></select></label>
+            </div>
+            <button id="saveTask" class="primary">Aufgabe speichern</button>
+          </div>
+        </article>
+        <article class="panel padded">
+          <div class="section-title"><h3>Module</h3><span id="moduleProgressText" class="tag">0 %</span></div>
+          <div id="moduleList" class="module-list"></div>
+        </article>
       </div>
+      <article class="panel padded">
+        <div class="section-title"><h3>Aufgaben</h3><div class="filter-row"><button class="chip active" data-task-filter="open">offen</button><button class="chip" data-task-filter="all">alle</button><button class="chip" data-task-filter="done">erledigt</button></div></div>
+        <div id="taskList" class="task-list"></div>
+      </article>
     </section>
 
     <section id="tab-files" class="tab stack">
       <article id="dropzone" class="dropzone panel">
         <input id="fileInput" type="file" multiple hidden accept=".pdf,.csv,.tsv,.txt,.md,.png,.jpg,.jpeg" />
-        <div class="drop-icon">⇩</div><h2>Dateien hier hineinziehen</h2><p>Goodnotes-PDFs, Vorlesungsskripte, Übungsblätter, Messdaten, Markdown oder Bilder.</p><button id="chooseFiles" class="primary">Dateien wählen</button>
+        <div class="drop-icon">⇩</div>
+        <span class="eyebrow">SMART IMPORT</span>
+        <h2>Dateien hier hineinziehen</h2>
+        <p>Goodnotes-PDFs, Vorlesungsskripte, Übungsblätter, Messdaten, Markdown oder Bilder. Textdateien werden lokal auf physikalische Begriffe analysiert.</p>
+        <button id="chooseFiles" class="primary">Dateien wählen</button>
       </article>
-      <article class="panel padded"><div class="section-title"><h3>Dateibibliothek</h3><span id="fileCount">0 Elemente</span></div><div id="fileTable" class="file-table"></div></article>
-      <article class="panel goodnotes-card"><div><span class="eyebrow">GOODNOTES BRIDGE</span><h3>Goodnotes bleibt dein Schreibplatz.</h3><p>Exportiere dein Heft oder einzelne Seiten als PDF in die Dateien-App bzw. iCloud Drive. Zieh die PDF anschließend hier hinein. Physics OS bewahrt sie als Quelldokument auf; Lernkarten kannst du umgekehrt als CSV für Goodnotes exportieren.</p></div><div class="goodnotes-symbol">◫</div></article>
+      <div class="grid-2">
+        <article class="panel padded">
+          <div class="section-title"><h3>Dateibibliothek</h3><span id="fileCount">0 Elemente</span></div>
+          <div class="searchbox small"><span>⌕</span><input id="fileSearch" placeholder="Datei, Kategorie oder Thema suchen …" /></div>
+          <div id="fileTable" class="file-table"></div>
+        </article>
+        <article class="panel padded analyzer-panel">
+          <div class="section-title"><h3>Import-Analyse</h3><span class="tag accent">lokal</span></div>
+          <div id="fileAnalysis" class="analysis-empty">Wähle links eine Datei aus. Bei TXT/Markdown/CSV kann Physics OS Begriffe und Struktur direkt lokal analysieren.</div>
+        </article>
+      </div>
+      <article class="panel goodnotes-card">
+        <div><span class="eyebrow">GOODNOTES BRIDGE</span><h3>Goodnotes bleibt dein Schreibplatz.</h3><p>Exportiere Seiten oder Hefte als PDF und zieh sie hier hinein. Physics OS verwaltet, sortiert und verknüpft; Lernkarten gehen als CSV wieder zurück.</p></div><div class="goodnotes-symbol">◫</div>
+      </article>
     </section>
 
     <section id="tab-formulas" class="tab stack">
-      <div class="searchbox"><span>⌕</span><input id="formulaSearch" placeholder="Formel, Thema oder Begriff suchen …" /></div>
+      <article class="panel padded formula-hero">
+        <div><span class="eyebrow">FORMEL-EXPLORER</span><h2>Nicht nur nachschlagen – verstehen.</h2><p class="muted">Suche nach Begriffen, öffne Variablen und Einheiten und springe direkt in passende Simulationen oder Aufgaben.</p></div>
+        <div class="formula-big">∫ F · ds</div>
+      </article>
+      <div class="formula-toolbar">
+        <div class="searchbox"><span>⌕</span><input id="formulaSearch" placeholder="Formel, Thema, Variable oder Begriff suchen …" /></div>
+        <select id="formulaTopic"><option value="">Alle Themen</option></select>
+      </div>
       <div id="formulaGrid" class="formula-grid"></div>
+      <div id="formulaModal" class="modal hidden"><div class="modal-card"><button class="modal-close" data-close-modal>×</button><div id="formulaDetail"></div></div></div>
+    </section>
+
+    <section id="tab-trainer" class="tab stack">
+      <article class="panel padded trainer-hero">
+        <div><span class="eyebrow">PHYSICS PROBLEM TRAINER</span><h2>Du rechnest. Physics OS coacht.</h2><p class="muted">Numerische Aufgaben mit gestuften Hinweisen – nicht sofort die Lösung ins Gesicht.</p></div>
+        <div class="trainer-score"><span>gelöst</span><strong id="trainerSolved">0</strong></div>
+      </article>
+      <div class="grid-2 trainer-grid">
+        <article class="panel padded">
+          <div class="section-title"><h3>Aufgabe</h3><select id="trainerTopic"><option value="kinematics">Kinematik</option><option value="newton">Newton</option><option value="energy">Energie</option><option value="electric">Elektrizität</option></select></div>
+          <div id="problemCard" class="problem-card"></div>
+          <button id="newProblem" class="secondary full">Neue Aufgabe</button>
+        </article>
+        <article class="panel padded answer-panel">
+          <div class="section-title"><h3>Dein Lösungsweg</h3><span id="problemStatus" class="tag">bereit</span></div>
+          <label>Ergebnis<input id="problemAnswer" inputmode="decimal" placeholder="Zahlenwert" /></label>
+          <div class="unit-answer"><span id="problemUnit">—</span></div>
+          <div class="button-row"><button id="checkProblem" class="primary">Prüfen</button><button id="problemHint" class="secondary">Hinweis</button></div>
+          <div id="hintBox" class="hint-box hidden"></div>
+          <div id="solutionBox" class="solution-box hidden"></div>
+        </article>
+      </div>
     </section>
 
     <section id="tab-lab" class="tab stack">
-      <article class="panel padded"><div class="section-title"><h3>Messdaten auswählen</h3></div><select id="labSelect"></select><div id="labEmpty" class="empty">Importiere zuerst eine CSV- oder TSV-Datei.</div></article>
+      <article class="panel padded lab-header">
+        <div><span class="eyebrow">MEASUREMENT LAB</span><h2>Vom CSV zur Auswertung.</h2><p class="muted">Mittelwerte, Streuung, lineare Regression und Plot – direkt aus deinen importierten Messdaten.</p></div>
+        <select id="labSelect"></select>
+      </article>
+      <div id="labEmpty" class="panel padded empty">Importiere zuerst eine CSV- oder TSV-Datei.</div>
       <div id="labResults" class="stack"></div>
+      <div class="grid-2">
+        <article class="panel padded uncertainty-card">
+          <div class="section-title"><h3>Unsicherheits-Rechner</h3><span class="tag">Gauss</span></div>
+          <p class="muted">Für Produkte/Potenzen: z = xᵃ · yᵇ. Unabhängige Unsicherheiten werden quadratisch kombiniert.</p>
+          <div class="form-row"><label>x<input id="uncX" type="number" step="any" value="2" /></label><label>Δx<input id="uncDX" type="number" step="any" value="0.1" /></label></div>
+          <div class="form-row"><label>Exponent a<input id="uncA" type="number" step="any" value="1" /></label><label>y<input id="uncY" type="number" step="any" value="3" /></label></div>
+          <div class="form-row"><label>Δy<input id="uncDY" type="number" step="any" value="0.2" /></label><label>Exponent b<input id="uncB" type="number" step="any" value="1" /></label></div>
+          <button id="calcUncertainty" class="primary full">Unsicherheit berechnen</button>
+          <div id="uncResult" class="result-box"></div>
+        </article>
+        <article class="panel padded lab-tips">
+          <div class="section-title"><h3>Praktikums-Check</h3><span class="tag accent">Report</span></div>
+          <div class="check-list"><label><input type="checkbox" /> Einheiten an Achsen</label><label><input type="checkbox" /> Unsicherheiten angegeben</label><label><input type="checkbox" /> Fitparameter mit Unsicherheit</label><label><input type="checkbox" /> Signifikante Stellen geprüft</label><label><input type="checkbox" /> Rohdaten unverändert archiviert</label></div>
+        </article>
+      </div>
     </section>
 
-    <section id="tab-cards" class="tab grid-2">
-      <article class="panel padded"><div class="section-title"><h3>Neue Lernkarte</h3></div><div class="form-stack">
-        <label>Vorderseite<input id="cardFront" placeholder="z. B. Was besagt Newton II?" /></label>
-        <label>Rückseite<textarea id="cardBack" placeholder="F = m · a …"></textarea></label>
-        <label>Thema<input id="cardTopic" value="Mechanik" /></label>
-        <button id="addCard" class="primary">Karte speichern</button>
-      </div><hr><button id="exportCards" class="secondary">Als Goodnotes-CSV exportieren</button><p class="muted">Goodnotes unterstützt CSV/TSV zum Erstellen von Flashcards.</p></article>
+    <section id="tab-sim" class="tab stack">
+      <article class="panel padded sim-hero"><div><span class="eyebrow">PHYSICS PLAYGROUND</span><h2>Zieh an Reglern. Sieh die Physik reagieren.</h2><p class="muted">Keine Animation um der Animation willen – jede Kurve zeigt dir eine echte Beziehung.</p></div><div class="sim-symbol">◎</div></article>
+      <div class="grid-2">
+        <article class="panel padded sim-card">
+          <div class="section-title"><div><span class="eyebrow">MECHANIK</span><h3>Schiefer Wurf</h3></div><span id="projectileRangeTag" class="tag"></span></div>
+          <canvas id="projectileCanvas" width="900" height="420"></canvas>
+          <div class="slider-grid">
+            <label>v₀ <span id="v0Label"></span><input id="v0Range" type="range" min="5" max="60" value="25" step="1" /></label>
+            <label>Winkel <span id="angleLabel"></span><input id="angleRange" type="range" min="5" max="85" value="45" step="1" /></label>
+            <label>g <span id="gLabel"></span><input id="gRange" type="range" min="1.6" max="24.8" value="9.81" step="0.01" /></label>
+          </div>
+          <div id="projectileStats" class="sim-stats"></div>
+        </article>
+        <article class="panel padded sim-card">
+          <div class="section-title"><div><span class="eyebrow">ASTROPHYSIK</span><h3>Schwarzkörperstrahlung</h3></div><span id="tempTag" class="tag"></span></div>
+          <canvas id="blackbodyCanvas" width="900" height="420"></canvas>
+          <label class="range-label">Temperatur <span id="tempLabel"></span><input id="tempRange" type="range" min="2500" max="12000" value="5772" step="10" /></label>
+          <div id="blackbodyStats" class="sim-stats"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="tab-cards" class="tab stack">
+      <div class="grid-2">
+        <article class="panel padded">
+          <div class="section-title"><h3>Neue Lernkarte</h3><span class="tag">Goodnotes-ready</span></div>
+          <div class="form-stack">
+            <label>Vorderseite<input id="cardFront" placeholder="z. B. Was besagt Newton II?" /></label>
+            <label>Rückseite<textarea id="cardBack" placeholder="F = m · a …"></textarea></label>
+            <label>Thema<input id="cardTopic" value="Mechanik" /></label>
+            <button id="addCard" class="primary">Karte speichern</button>
+          </div>
+          <hr>
+          <div class="button-row"><button id="exportCards" class="secondary">Goodnotes-CSV</button><button id="startReview" class="secondary">Review starten</button></div>
+        </article>
+        <article class="panel padded review-overview">
+          <div class="section-title"><h3>Spaced Repetition</h3><span id="dueCards" class="tag accent">0 fällig</span></div>
+          <div class="review-ring"><div><strong id="reviewMastery">0%</strong><span>Mastery</span></div></div>
+          <p class="muted">Karten werden nach deinen Bewertungen automatisch mit wachsendem Abstand wieder fällig.</p>
+        </article>
+      </div>
       <article class="panel padded"><div class="section-title"><h3>Deine Karten</h3><span id="cardCount">0</span></div><div id="cardList" class="card-list"></div></article>
+      <div id="reviewModal" class="modal hidden"><div class="modal-card review-modal-card"><button class="modal-close" data-close-review>×</button><div id="reviewContent"></div></div></div>
     </section>
 
     <section id="tab-sync" class="tab stack">
-      <article class="panel vault-hero"><div class="shield">↻</div><div><span class="eyebrow">END-TO-END ENCRYPTED</span><h2>Geräte-Sync</h2><p>Physics OS verschlüsselt den kompletten Snapshot auf deinem Gerät. Der Sync-Server erhält nur verschlüsselte Daten und kann deine PDFs, Karten oder Messwerte nicht lesen.</p></div></article>
+      <article class="panel vault-hero"><div class="shield">↻</div><div><span class="eyebrow">END-TO-END ENCRYPTED</span><h2>Geräte-Sync</h2><p>Physics OS verschlüsselt den kompletten Snapshot auf deinem Gerät. Der Sync-Server erhält nur verschlüsselte Daten.</p></div></article>
       <div class="grid-2">
         <article class="panel padded">
           <div class="section-title"><h3>Dieses Gerät</h3><span id="syncState" class="tag">nicht verbunden</span></div>
           <div class="form-stack">
             <label>Geräte-ID<input id="deviceId" readonly /></label>
             <label>Sync-ID<input id="syncId" placeholder="Auf allen Geräten identisch" /></label>
-            <div class="button-row"><button id="generateSyncId" class="secondary">Neue Sync-ID erzeugen</button><button id="copySyncId" class="secondary">Sync-ID kopieren</button></div>
+            <div class="button-row"><button id="generateSyncId" class="secondary">Neue Sync-ID</button><button id="copySyncId" class="secondary">kopieren</button></div>
             <label>Sync-Endpunkt<input id="syncEndpoint" type="url" placeholder="https://dein-physics-os-sync.workers.dev" /></label>
             <label>Vault-Code<input id="syncPass" type="password" placeholder="Mindestens 8 Zeichen · auf allen Geräten gleich" /></label>
-            <label class="toggle-row"><input id="autoSync" type="checkbox" /> Automatisch synchronisieren, wenn die App wieder aktiv wird</label>
+            <label class="toggle-row"><input id="autoSync" type="checkbox" /> automatisch synchronisieren</label>
           </div>
         </article>
         <article class="panel padded">
           <div class="section-title"><h3>Synchronisieren</h3><span id="lastSync">noch nie</span></div>
-          <p class="muted">Beim ersten Gerät: <b>Gerät → Cloud</b>. Auf einem weiteren Gerät dieselbe Sync-ID, denselben Vault-Code und denselben Endpunkt eintragen und dann <b>Cloud → Gerät</b>.</p>
-          <div class="action-grid">
-            <button id="syncPush" class="action"><b>Gerät → Cloud</b><span>Aktuellen verschlüsselten Stand hochladen</span></button>
-            <button id="syncPull" class="action"><b>Cloud → Gerät</b><span>Letzten Cloud-Stand laden</span></button>
-            <button id="syncNow" class="action"><b>Jetzt synchronisieren</b><span>Neueren Stand automatisch wählen</span></button>
-          </div>
-          <p class="muted">Der App-Code liegt auf GitHub. Persönliche Inhalte werden ausdrücklich nicht in dein öffentliches Repository geschrieben.</p>
+          <p class="muted">Erstes Gerät: Gerät → Cloud. Zweites Gerät: gleiche Sync-ID + Vault-Code, dann Cloud → Gerät.</p>
+          <div class="action-grid"><button id="syncPush" class="action"><b>Gerät → Cloud</b><span>verschlüsselt hochladen</span></button><button id="syncPull" class="action"><b>Cloud → Gerät</b><span>Stand herunterladen</span></button><button id="syncNow" class="action"><b>Jetzt synchronisieren</b><span>neueren Stand wählen</span></button></div>
         </article>
       </div>
-      <article class="panel padded"><h3>Warum nicht direkt iCloud?</h3><p class="muted">Eine Browser-/PWA-App bekommt keinen allgemeinen, dauerhaften Zugriff auf deine private iCloud-Drive-Struktur. Deshalb nutzt Physics OS eine getrennte, verschlüsselte Sync-Ablage. Goodnotes kann weiterhin über PDF-Export/Import mit Physics OS zusammenspielen.</p></article>
     </section>
 
     <section id="tab-vault" class="tab stack">
-      <article class="panel vault-hero"><div class="shield">✓</div><div><span class="eyebrow">PRIVATE BY DEFAULT</span><h2>Dein verschlüsselter Physics-OS-Vault</h2><p>Dateien und Lernkarten bleiben lokal im Browser. Für Gerätewechsel kannst du ein AES-GCM-verschlüsseltes Backup erzeugen und beispielsweise in iCloud Drive ablegen.</p></div></article>
+      <article class="panel vault-hero"><div class="shield">✓</div><div><span class="eyebrow">PRIVATE BY DEFAULT</span><h2>Verschlüsselter Physics-OS-Vault</h2><p>Dateien, Tasks und Lernkarten bleiben lokal. Für Gerätewechsel kannst du ein AES-GCM-verschlüsseltes Backup erzeugen.</p></div></article>
       <article class="panel padded"><div class="form-stack"><label>Vault-Code<input id="vaultPass" type="password" placeholder="Mindestens 8 Zeichen" /></label><div class="button-row"><button id="exportVault" class="primary">Verschlüsseltes Backup</button><button id="importVaultBtn" class="secondary">Backup einlesen</button><input id="vaultInput" hidden type="file" accept="application/json,.json" /></div></div></article>
-      <article class="panel padded"><h3>iCloud-Workflow</h3><ol class="steps"><li>Vault-Backup erzeugen.</li><li>Die Datei in iCloud Drive speichern.</li><li>Auf dem anderen Gerät Physics OS öffnen.</li><li>Backup mit demselben Vault-Code einlesen.</li></ol></article>
+      <article class="panel padded"><h3>iCloud-Workflow</h3><ol class="steps"><li>Vault-Backup erzeugen.</li><li>Datei in iCloud Drive speichern.</li><li>Auf dem anderen Gerät Physics OS öffnen.</li><li>Backup mit demselben Vault-Code einlesen.</li></ol></article>
     </section>
   </main>
 </div>
+
+<div id="commandPalette" class="modal hidden"><div class="command-card"><div class="searchbox command-search"><span>⌕</span><input id="commandInput" placeholder="Wohin möchtest du?" /></div><div id="commandList" class="command-list"></div><small>Enter öffnen · Esc schließen · ⌘/Ctrl + K</small></div></div>
+
 <script type="module" src="app.js"></script>
 </body>
 </html>
