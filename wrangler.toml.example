@@ -1,0 +1,7 @@
+name = "physics-os-sync"
+main = "cloudflare-worker.js"
+compatibility_date = "2026-09-09"
+
+[[r2_buckets]]
+binding = "PHYSICS_OS_BUCKET"
+bucket_name = "physics-os-sync"
