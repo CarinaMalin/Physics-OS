@@ -1,0 +1,9 @@
+{
+  "name": "Physics OS",
+  "short_name": "Physics OS",
+  "description": "Lokales Physik- und Studiencockpit",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#080b14",
+  "theme_color": "#090d17"
+}
