@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#090d17" />
+  <meta name="description" content="Lokales Physik- und Studiencockpit" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>Physics OS</title>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">φ</div><div><b>Physics OS</b><small>study cockpit</small></div></div>
+    <nav id="nav">
+      <button data-tab="home" class="active">⌂ <span>Dashboard</span></button>
+      <button data-tab="files">▤ <span>Dateien</span></button>
+      <button data-tab="formulas">φ <span>Formeln</span></button>
+      <button data-tab="lab">⌁ <span>Labor</span></button>
+      <button data-tab="cards">◇ <span>Lernkarten</span></button>
+      <button data-tab="sync">↻ <span>Sync</span></button>
+      <button data-tab="vault">▣ <span>Vault</span></button>
+    </nav>
+    <div class="sidebar-note">Lokal-first · Goodnotes-freundlich</div>
+  </aside>
+  <main class="main">
+    <header class="topbar"><div><span class="eyebrow">PHYSICS OS</span><h1 id="pageTitle">Dashboard</h1></div><span id="syncPill" class="privacy-pill">✓ lokal-first</span></header>
+    <div id="notice" class="notice hidden"></div>
+
+    <section id="tab-home" class="tab active stack">
+      <article class="hero panel">
+        <div><span class="eyebrow">DEIN STUDIUM, EINE OBERFLÄCHE</span><h2>Physik verstehen. Daten auswerten. Goodnotes sinnvoll ergänzen.</h2><p>Zieh Skripte, Goodnotes-PDFs, Übungsblätter oder Messdaten hinein. Physics OS ordnet sie vor, speichert sie lokal und macht aus Messdaten direkt eine kleine Auswertung.</p></div>
+        <div class="orbit"><div class="sun">φ</div><i class="planet p1"></i><i class="planet p2"></i></div>
+      </article>
+      <div class="stats-grid">
+        <article class="panel stat"><span>▤</span><div><strong id="statFiles">0</strong><small>Dateien</small></div></article>
+        <article class="panel stat"><span>◫</span><div><strong id="statGoodnotes">0</strong><small>Goodnotes-Importe</small></div></article>
+        <article class="panel stat"><span>⌁</span><div><strong id="statLab">0</strong><small>Datensätze / Praktika</small></div></article>
+        <article class="panel stat"><span>◇</span><div><strong id="statCards">0</strong><small>Lernkarten</small></div></article>
+      </div>
+      <div class="grid-2">
+        <article class="panel padded"><div class="section-title"><h3>Schnellstart</h3></div><div class="action-grid">
+          <button class="action" data-go="files"><b>Dateien reinziehen</b><span>PDF, CSV, TXT, Bilder</span></button>
+          <button class="action" data-go="formulas"><b>Formelbibliothek</b><span>Mechanik bis Astrophysik</span></button>
+          <button class="action" data-go="lab"><b>Messdaten</b><span>Mittelwert, σ, Fit, R²</span></button>
+          <button class="action" data-go="cards"><b>Goodnotes-Karten</b><span>CSV exportieren</span></button>
+        </div></article>
+        <article class="panel padded"><div class="section-title"><h3>Zuletzt importiert</h3></div><div id="recentList" class="recent-list"><div class="empty">Noch keine Dateien.</div></div></article>
+      </div>
+    </section>
+
+    <section id="tab-files" class="tab stack">
+      <article id="dropzone" class="dropzone panel">
+        <input id="fileInput" type="file" multiple hidden accept=".pdf,.csv,.tsv,.txt,.md,.png,.jpg,.jpeg" />
+        <div class="drop-icon">⇩</div><h2>Dateien hier hineinziehen</h2><p>Goodnotes-PDFs, Vorlesungsskripte, Übungsblätter, Messdaten, Markdown oder Bilder.</p><button id="chooseFiles" class="primary">Dateien wählen</button>
+      </article>
+      <article class="panel padded"><div class="section-title"><h3>Dateibibliothek</h3><span id="fileCount">0 Elemente</span></div><div id="fileTable" class="file-table"></div></article>
+      <article class="panel goodnotes-card"><div><span class="eyebrow">GOODNOTES BRIDGE</span><h3>Goodnotes bleibt dein Schreibplatz.</h3><p>Exportiere dein Heft oder einzelne Seiten als PDF in die Dateien-App bzw. iCloud Drive. Zieh die PDF anschließend hier hinein. Physics OS bewahrt sie als Quelldokument auf; Lernkarten kannst du umgekehrt als CSV für Goodnotes exportieren.</p></div><div class="goodnotes-symbol">◫</div></article>
+    </section>
+
+    <section id="tab-formulas" class="tab stack">
+      <div class="searchbox"><span>⌕</span><input id="formulaSearch" placeholder="Formel, Thema oder Begriff suchen …" /></div>
+      <div id="formulaGrid" class="formula-grid"></div>
+    </section>
+
+    <section id="tab-lab" class="tab stack">
+      <article class="panel padded"><div class="section-title"><h3>Messdaten auswählen</h3></div><select id="labSelect"></select><div id="labEmpty" class="empty">Importiere zuerst eine CSV- oder TSV-Datei.</div></article>
+      <div id="labResults" class="stack"></div>
+    </section>
+
+    <section id="tab-cards" class="tab grid-2">
+      <article class="panel padded"><div class="section-title"><h3>Neue Lernkarte</h3></div><div class="form-stack">
+        <label>Vorderseite<input id="cardFront" placeholder="z. B. Was besagt Newton II?" /></label>
+        <label>Rückseite<textarea id="cardBack" placeholder="F = m · a …"></textarea></label>
+        <label>Thema<input id="cardTopic" value="Mechanik" /></label>
+        <button id="addCard" class="primary">Karte speichern</button>
+      </div><hr><button id="exportCards" class="secondary">Als Goodnotes-CSV exportieren</button><p class="muted">Goodnotes unterstützt CSV/TSV zum Erstellen von Flashcards.</p></article>
+      <article class="panel padded"><div class="section-title"><h3>Deine Karten</h3><span id="cardCount">0</span></div><div id="cardList" class="card-list"></div></article>
+    </section>
+
+    <section id="tab-sync" class="tab stack">
+      <article class="panel vault-hero"><div class="shield">↻</div><div><span class="eyebrow">END-TO-END ENCRYPTED</span><h2>Geräte-Sync</h2><p>Physics OS verschlüsselt den kompletten Snapshot auf deinem Gerät. Der Sync-Server erhält nur verschlüsselte Daten und kann deine PDFs, Karten oder Messwerte nicht lesen.</p></div></article>
+      <div class="grid-2">
+        <article class="panel padded">
+          <div class="section-title"><h3>Dieses Gerät</h3><span id="syncState" class="tag">nicht verbunden</span></div>
+          <div class="form-stack">
+            <label>Geräte-ID<input id="deviceId" readonly /></label>
+            <label>Sync-ID<input id="syncId" placeholder="Auf allen Geräten identisch" /></label>
+            <div class="button-row"><button id="generateSyncId" class="secondary">Neue Sync-ID erzeugen</button><button id="copySyncId" class="secondary">Sync-ID kopieren</button></div>
+            <label>Sync-Endpunkt<input id="syncEndpoint" type="url" placeholder="https://dein-physics-os-sync.workers.dev" /></label>
+            <label>Vault-Code<input id="syncPass" type="password" placeholder="Mindestens 8 Zeichen · auf allen Geräten gleich" /></label>
+            <label class="toggle-row"><input id="autoSync" type="checkbox" /> Automatisch synchronisieren, wenn die App wieder aktiv wird</label>
+          </div>
+        </article>
+        <article class="panel padded">
+          <div class="section-title"><h3>Synchronisieren</h3><span id="lastSync">noch nie</span></div>
+          <p class="muted">Beim ersten Gerät: <b>Gerät → Cloud</b>. Auf einem weiteren Gerät dieselbe Sync-ID, denselben Vault-Code und denselben Endpunkt eintragen und dann <b>Cloud → Gerät</b>.</p>
+          <div class="action-grid">
+            <button id="syncPush" class="action"><b>Gerät → Cloud</b><span>Aktuellen verschlüsselten Stand hochladen</span></button>
+            <button id="syncPull" class="action"><b>Cloud → Gerät</b><span>Letzten Cloud-Stand laden</span></button>
+            <button id="syncNow" class="action"><b>Jetzt synchronisieren</b><span>Neueren Stand automatisch wählen</span></button>
+          </div>
+          <p class="muted">Der App-Code liegt auf GitHub. Persönliche Inhalte werden ausdrücklich nicht in dein öffentliches Repository geschrieben.</p>
+        </article>
+      </div>
+      <article class="panel padded"><h3>Warum nicht direkt iCloud?</h3><p class="muted">Eine Browser-/PWA-App bekommt keinen allgemeinen, dauerhaften Zugriff auf deine private iCloud-Drive-Struktur. Deshalb nutzt Physics OS eine getrennte, verschlüsselte Sync-Ablage. Goodnotes kann weiterhin über PDF-Export/Import mit Physics OS zusammenspielen.</p></article>
+    </section>
+
+    <section id="tab-vault" class="tab stack">
+      <article class="panel vault-hero"><div class="shield">✓</div><div><span class="eyebrow">PRIVATE BY DEFAULT</span><h2>Dein verschlüsselter Physics-OS-Vault</h2><p>Dateien und Lernkarten bleiben lokal im Browser. Für Gerätewechsel kannst du ein AES-GCM-verschlüsseltes Backup erzeugen und beispielsweise in iCloud Drive ablegen.</p></div></article>
+      <article class="panel padded"><div class="form-stack"><label>Vault-Code<input id="vaultPass" type="password" placeholder="Mindestens 8 Zeichen" /></label><div class="button-row"><button id="exportVault" class="primary">Verschlüsseltes Backup</button><button id="importVaultBtn" class="secondary">Backup einlesen</button><input id="vaultInput" hidden type="file" accept="application/json,.json" /></div></div></article>
+      <article class="panel padded"><h3>iCloud-Workflow</h3><ol class="steps"><li>Vault-Backup erzeugen.</li><li>Die Datei in iCloud Drive speichern.</li><li>Auf dem anderen Gerät Physics OS öffnen.</li><li>Backup mit demselben Vault-Code einlesen.</li></ol></article>
+    </section>
+  </main>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
