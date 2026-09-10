@@ -7,6 +7,7 @@
   <meta name="description" content="Physics OS – ruhiges Physik- und Studiencockpit" />
   <link rel="manifest" href="manifest.webmanifest" />
   <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="semester1.css" />
   <title>Physics OS</title>
 </head>
 <body>
@@ -26,7 +27,7 @@
       <button data-tab="sync"><span>↻</span><em>Sync</em></button>
       <button data-tab="vault"><span>▣</span><em>Vault</em></button>
     </nav>
-    <div class="sidebar-footer">v0.4 · lokal-first</div>
+    <div class="sidebar-footer">v0.6 · Semester 1</div>
   </aside>
 
   <main class="main">
@@ -174,5 +175,7 @@
 <div id="formulaModal" class="modal hidden"><div class="modal-card"><button class="modal-close" data-close-modal>×</button><div id="formulaDetail"></div></div></div>
 <div id="commandPalette" class="modal hidden"><div class="command-card"><input id="commandSearch" placeholder="Werkzeug suchen …" /><div id="commandList"></div></div></div>
 <script type="module" src="app.js"></script>
+<script src="formula-enhancer.js" defer></script>
+<script src="semester1.js" defer></script>
 </body>
 </html>
